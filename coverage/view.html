@@ -1,12 +1,4 @@
-<?php
-    include('connectiondb.php');
-    $sid = $_GET['id'];
-    
-    $sqldisplay = "SELECT * FROM client WHERE id = '$sid'";
-    $resultdisplay = $conn->query($sqldisplay);
-    
-    $row = $resultdisplay->fetch_assoc();
-?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
