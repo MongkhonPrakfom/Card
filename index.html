@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Page</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <h1><i class="fas fa-id-card"></i> Registration Business Card</h1>
+        <ul class="dropdown">
+            <li class="dropdown-item"><i class="fas fa-user"></i> Username</li>
+                <ul class="dropdown-menu">
+                    <li> <a href="logout.html" class="logout"><i class="fas fa-sign-out-alt"></i> Log Out</a></li>
+                </ul>
+        </ul>
+    </header>
+
+    <aside class="aside">
+        <ul>
+            <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="form.html"><i class="fas fa-user-plus"></i> Registration Card</a></li>
+            <li><a href="display.html"><i class="fas fa-list"></i> View Details Card</a></li>
+            <li>
+                <button class="export-excel">
+                    <i class="fa fa-file-excel"></i> Export Data to Excel
+                </button>
+            </li>
+        </ul>
+    </aside>
+
+    <main class="main">
+    <div class="form-container">
+            <h2>Registration</h2>
+            <form action="#" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="nama">Name</label>
+                    <input type="text" name="nama" id="nama" class="form-control" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label for="jawatan">Position</label>
+                    <input type="text" name="jawatan" id="jawatan" class="form-control" placeholder="Example: Manager">
+                </div>
+                <div class="form-group">
+                    <label for="department">Department</label>
+                    <input type="text" name="department" id="department" class="form-control" placeholder="Example: Human Resources">
+                </div>
+                <div class="form-group">
+                    <label for="alamat">Address</label>
+                    <textarea name="alamat" id="alamat" class="form-control" placeholder="Enter your address"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="negeri">State</label>
+                    <select name="negeri" id="negeri" class="selected">
+                        <option value="">Please Choose State</option>
+                        <option value="Johor">Johor</option>
+                        <option value="Perak">Perak</option>
+                        <option value="Melaka">Melaka</option>
+                        <option value="Negeri Sembilan">Negeri Sembilan</option>
+                        <option value="Pulau Pinang">Pulau Pinang</option>
+                        <option value="Sabah">Sabah</option>
+                        <option value="Kedah">Kedah</option>
+                        <option value="Selangor">Selangor</option>
+                        <option value="Perlis">Perlis</option>
+                        <option value="Sarawak">Sarawak</option>
+                        <option value="Pahang">Pahang</option>
+                        <option value="Terengganu">Terengganu</option>
+                        <option value="Kelantan">Kelantan</option>
+                        <option value="Labuan">Labuan</option>
+                        <option value="Putrajaya">Putrajaya</option>
+                        <option value="Kuala Lumpur">Kuala Lumpur</option>
+                        <option value="NULL">NULL</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="syarikat">Company Name</label>
+                    <input type="text" name="syarikat" id="syarikat" class="form-control" placeholder="Enter company name">
+                </div>
+                <div class="form-group">
+                    <label for="tel">No. Phone</label>
+                    <input type="tel" name="tel" id="tel" class="form-control" placeholder="012-3456789">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email" class="form-control" placeholder="name@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="tarikh">Registration Date</label>
+                    <input type="date" name="tarikh" id="tarikh" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="file_upload">Upload Picture</label>
+                    <input type="file" id="file_upload" name="pic" class="form-control-file">
+                </div>
+                <button type="submit" name="register" id="register" class="btn-submit">
+                    <i class="fa fa-paper-plane"></i> Submit
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; Registration Business Card.</p>
+    </footer>
+
+    <script>
+        // Show alert if URL contains 'incomplete=yes'
+        if (new URLSearchParams(window.location.search).get('incomplete') === 'yes') {
+            alert("Please enter all fields!");
+        }
+    </script>
+</body>
+</html>
