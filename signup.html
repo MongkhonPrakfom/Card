@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up Form</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="body-login">
+<header class="header">
+        <h1><i class="fas fa-id-card"></i> Registration Business Card</h1>
+    </header>
+<div class="container-login">
+	<div class="screen">
+		<div class="screen__content">
+			<form class="signup" method="POST" action="signupprocess.php">
+				<div class="login__field">
+					<i class="login__icon fa fa-envelope"></i>
+					<input type="email" name="email" class="login__input" placeholder="Email">
+				</div>
+                <div class="login__field">
+					<i class="login__icon fas fa-user"></i>
+					<input type="text" name="nama" class="login__input" placeholder="Name">
+				</div>
+				<div class="login__field">
+					<i class="login__icon fas fa-lock"></i>
+					<input type="password" name="password" class="login__input" id="password" placeholder="Password">
+				</div>
+                <div class="login__field">
+					<i class="login__icon fas fa-lock"></i>
+					<input type="password" name="password1" class="login__input" id="password1" placeholder="Confirm Password" oninput="chkpass()">
+				</div>
+                <p id="passchk" style="color: red; font-size: 14px;"></p>
+				<button type="submit" name="daftar" class="button signup__submit">
+					<span class="button__text">Sign Up Now</span>
+					<i class="button__icon fas fa-chevron-right"></i>
+				</button>				
+			</form>
+			<div class="social-login">
+				<a href="login.php" class="btn-signup">Log In</a>
+			</div>
+		</div>
+		<div class="screen__background">
+			<span class="screen__background__shape screen__background__shape4"></span>
+			<span class="screen__background__shape screen__background__shape3"></span>		
+			<span class="screen__background__shape screen__background__shape2"></span>
+			<span class="screen__background__shape screen__background__shape1"></span>
+		</div>		
+	</div>
+    <script>
+        function chkpass() {
+            var password = document.getElementById("password").value;
+            var confirmPassword = document.getElementById("password1").value;
+
+            if (password !== confirmPassword) {
+                document.getElementById('passchk').innerHTML = "The password does not match";
+                return false;
+            } else {
+                document.getElementById('passchk').innerHTML = "";
+                return true;
+            }
+        }
+    </script>
+
+    <?php
+        if(@$_GET['incomplete'] == 'yes') {
+            ?>
+            <script>
+                alert('Please enter all field!')
+            </script>
+            <?php
+        }
+    ?>
+</div>
+</body>
+</html>

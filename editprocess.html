@@ -1,0 +1,59 @@
+<?php
+session_start();
+include('connectiondb.php');
+
+if (isset($_POST['update'])) {
+    // Semak jika 'id' ada dalam POST
+    if (!isset($_POST['id'])) {
+        echo "<script>alert('ID not found.'); window.location.href='edit.php';</script>";
+        exit;
+    }
+
+    $client_id = $_POST['id']; // Ambil id dari POST
+    $P_nama = mysqli_real_escape_string($conn, $_POST['nama']);
+    $P_jawatan = mysqli_real_escape_string($conn, $_POST['jawatan']);
+    $P_department = mysqli_real_escape_string($conn, $_POST['department']);
+    $P_alamat = mysqli_real_escape_string($conn, $_POST['alamat']);
+    $P_negeri = mysqli_real_escape_string($conn, $_POST['negeri']);
+    $P_syarikat = mysqli_real_escape_string($conn, $_POST['syarikat']);
+    $P_tel = $_POST['tel'];
+    $P_email = mysqli_real_escape_string($conn, $_POST['email']);
+    $P_tarikh = $_POST['tarikh'];
+    $P_pic = $_FILES['pic']['name'];
+
+    // Semak jika semua medan diisi
+    if (empty($P_nama) || empty($P_jawatan) || empty($P_department) || empty($P_alamat) || empty($P_negeri) || empty($P_syarikat) || empty($P_tarikh) || empty($P_tel) || empty($P_email)) {
+        echo "<script>alert('Please enter all field!'); window.location.href='edit.php?id=" . $client_id . "';</script>";
+        exit;
+    }
+
+    if (!empty($_FILES['pic']['tmp_name'])) {
+        $image = $_FILES['pic']['tmp_name'];
+        $mypic = addslashes(file_get_contents($image)); // Use addslashes for escaping
+    } else {
+        $mypic = null; // No new image uploaded
+    }
+
+    $cmdupdate = "UPDATE client SET
+                nama = '$P_nama',
+                jawatan = '$P_jawatan',
+                department = '$P_department',
+                alamat = '$P_alamat',
+                negeri = '$P_negeri',    
+                nama_syarikat = '$P_syarikat',
+                no_telefon = '$P_tel',
+                email = '$P_email',
+                tarikh_daftar = '$P_tarikh',
+                gambar = " . ($mypic ? "'$mypic'" : "gambar") . " 
+                WHERE id = '$client_id'";
+
+    $resultupdate = $conn->query($cmdupdate);
+
+    if ($resultupdate) {
+        echo "<script>alert('Data has been update'); window.location.href='display.php';</script>";
+        exit;
+    } else {
+        echo "<script>alert('Data cannot been update: " . $conn->error . "')</script>";
+    }
+}
+?>

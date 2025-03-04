@@ -1,0 +1,124 @@
+<?php
+    include('connectiondb.php');
+    $client = $_GET['id'];
+
+    $clientdisplay = "SELECT * FROM client WHERE id = '$client'";
+    $resultClient = $conn->query($clientdisplay);
+    $row = $resultClient->fetch_assoc();
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Webpage with Header and Sidebar</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <h1><i class="fas fa-id-card"></i> Registration Business Card</h1>
+        <a href="display.php" class="back"><i class="fa fa-arrow-left"></i> Back</a>
+    </header>
+
+    <div class="edit-form">
+        <div class="form-container-edit">
+            <h2 class="edit-header">Edit Customer Details</h2>
+            <form action="editprocess.php" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="id"  value="<?php echo $row['id']; ?>">
+
+                <div class="form-group">
+                    <label for="nama">Name</label>
+                    <input type="text" name="nama" id="nama" value="<?php echo $row['nama']; ?>">
+                </div>
+
+                <div class="form-group">
+                    <label for="jawatan">Position</label>
+                    <input type="text" name="jawatan" id="jawatan" value="<?php echo $row['jawatan']; ?>">
+                </div>
+
+                <div class="form-group">
+                    <label for="department">Department</label>
+                    <input type="text" name="department" id="department" value="<?php echo $row['department']; ?>">
+                </div>
+
+                <div class="form-group">
+                    <label for="alamat">Address</label>
+                    <textarea name="alamat" id="alamat"><?php echo $row['alamat']; ?></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="negeri">State</label>
+                    <select name="negeri" id="negeri" class="selected">
+                        <option value="">Please Choose state</option>
+                        <option value="Johor" <?php echo ($row['negeri'] === 'Johor') ? 'selected' : ''; ?>>Johor</option>
+                        <option value="Perak" <?php echo ($row['negeri'] === 'Perak') ? 'selected' : ''; ?>>Perak</option>
+                        <option value="Melaka" <?php echo ($row['negeri'] === 'Melaka') ? 'selected' : ''; ?>>Melaka</option>
+                        <option value="Negeri Sembilan" <?php echo ($row['negeri'] === 'Negeri Sembilan') ? 'selected' : ''; ?>>Negeri Sembilan</option>
+                        <option value="Pulau Pinang" <?php echo ($row['negeri'] === 'Pulau Pinang') ? 'selected' : ''; ?>>Pulau Pinang</option>
+                        <option value="Sabah" <?php echo ($row['negeri'] === 'Sabah') ? 'selected' : ''; ?>>Sabah</option>
+                        <option value="Kedah" <?php echo ($row['negeri'] === 'Kedah') ? 'selected' : ''; ?>>Kedah</option>
+                        <option value="Selangor" <?php echo ($row['negeri'] === 'Selangor') ? 'selected' : ''; ?>>Selangor</option>
+                        <option value="Perlis" <?php echo ($row['negeri'] === 'Perlis') ? 'selected' : ''; ?>>Perlis</option>
+                        <option value="Sarawak" <?php echo ($row['negeri'] === 'Sarawak') ? 'selected' : ''; ?>>Sarawak</option>
+                        <option value="Pahang" <?php echo ($row['negeri'] === 'Pahang') ? 'selected' : ''; ?>>Pahang</option>
+                        <option value="Terengganu" <?php echo ($row['negeri'] === 'Terengganu') ? 'selected' : ''; ?>>Terengganu</option>
+                        <option value="Kelantan" <?php echo ($row['negeri'] === 'Kelantan') ? 'selected' : ''; ?>>Kelantan</option>
+                        <option value="Labuan" <?php echo ($row['negeri'] === 'Labuan') ? 'selected' : ''; ?>>Labuan</option>
+                        <option value="Putrajaya" <?php echo ($row['negeri'] === 'Putrajaya') ? 'selected' : ''; ?>>Putrajaya</option>
+                        <option value="Kuala Lumpur" <?php echo ($row['negeri'] === 'Kuala Lumpur') ? 'selected' : ''; ?>>Kuala Lumpur</option>
+                        <option value="NULL" <?php echo ($row['negeri'] === 'NULL') ? 'selected' : ''; ?>>NULL</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="syarikat">Company Name</label>
+                    <input type="text" name="syarikat" id="syarikat" value="<?php echo $row['nama_syarikat']; ?>">
+                </div>
+
+                <div class="form-group">
+                    <label for="tel">No.Phone</label>
+                    <input type="text" name="tel" id="tel" value="<?php echo $row['no_telefon']; ?>">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email" value="<?php echo $row['email']; ?>">
+                </div>
+
+                <div class="form-group">
+                    <label for="tarikh">Registration Date</label>
+                    <input type="date" name="tarikh" id="tarikh" value="<?php echo $row['tarikh_daftar']; ?>">
+                </div>
+
+                <div class="form-group">
+                    <label for="gambar">Upload Picture</label><br>
+                    <img src="data:image/jpg;base64, <?= base64_encode($row['gambar']); ?>" alt="Gambar" width="100">
+                    <input type="file" name="pic" id="file_upload">
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" name="update" id="update" class="btn-submit">
+                        <i class="fa fa-pencil-alt"></i> Edit
+                    </button>
+                </div>
+
+
+            </form>
+            <?php
+                if(@$_GET['incompleted'] == 'yes') {
+                ?>
+                    <script>    
+                        alert("Please enter all field!");
+                    </script>
+                    <?php
+                }
+            ?>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; Registration Business Card.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<?php
+    include('connectiondb.php');
+    $sid = $_GET['id'];
+    
+    $sqldisplay = "SELECT * FROM client WHERE id = '$sid'";
+    $resultdisplay = $conn->query($sqldisplay);
+    
+    $row = $resultdisplay->fetch_assoc();
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Details</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <h1><i class="fas fa-id-card"></i> Registration Business Card</h1>
+        <a href="display.php" class="back"><i class="fa fa-arrow-left"></i> Back</a>
+    </header>
+    <div class="container-view mt-4">
+        <h2>View Details</h2>
+
+        <table class="table-view">
+            <tbody>
+                <tr>
+                    <th>Nama</th>
+                    <td><?php echo $row['nama'] ?></td>
+                </tr>
+                <tr>
+                    <th>Jawatan</th>
+                    <td><?php echo $row['jawatan'] ?></td>
+                </tr>
+                <tr>
+                    <th>Department</th>
+                    <td><?php echo $row['department'] ?></td>
+                </tr>
+                <tr>
+                    <th>Alamat</th>
+                    <td><?php echo $row['alamat'] ?></td>
+                </tr>
+                <tr>
+                    <th>Negeri</th>
+                    <td><?php echo $row['negeri'] ?></td>
+                </tr>
+                <tr>
+                    <th>Syarikat</th>
+                    <td><?php echo $row['nama_syarikat'] ?></td>
+                </tr>
+                <tr>
+                    <th>No.Tel</th>
+                    <td><?php echo $row['no_telefon'] ?></td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td><?php echo $row['email'] ?></td>
+                </tr>
+                <tr>
+                    <th>Tarikh Daftar</th>
+                    <td><?php echo $row['tarikh_daftar'] ?></td>
+                </tr>
+                <tr>
+                    <th>Gambar</th>
+                    <td><img src="data:image/jpg;base64, <?= base64_encode($row['gambar']); ?>" alt="Gambar" width="300"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; Registration Business Card.</p>
+    </footer>
+
+</body>
+</html>

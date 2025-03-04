@@ -1,0 +1,208 @@
+<?php
+    session_start();
+    include('connectiondb.php'); // Ensure this file correctly connects to your database
+
+    // Check if user is logged in
+    if (isset($_SESSION['email'])) {
+        $email = $_SESSION['email'];
+
+        if (!isset($_SESSION['user_name'])) {
+            $query = "SELECT user_name FROM user WHERE email = '$email'";
+            $result = mysqli_query($conn, $query);
+
+            if ($result && mysqli_num_rows($result) > 0) {
+                $user = mysqli_fetch_assoc($result);
+                $_SESSION['user_name'] = $user['user_name']; 
+            } else {
+                $_SESSION['user_name'] = 'Guest';
+            }
+        }
+        $user_name = $_SESSION['user_name'];
+    } else {
+        $user_name = 'Guest';
+    }
+
+    // Database connection
+    $conn = new mysqli("localhost", "root", "", "po1");
+
+    // Handle search input safely
+    $nama = isset($_GET['nama']) ? mysqli_real_escape_string($conn, $_GET['nama']) : '';
+    $alamat = isset($_GET['alamat']) ? mysqli_real_escape_string($conn, $_GET['alamat']) : '';
+    $negeri = isset($_GET['negeri']) ? mysqli_real_escape_string($conn, $_GET['negeri']) : '';
+    $syarikat = isset($_GET['syarikat']) ? mysqli_real_escape_string($conn, $_GET['syarikat']) : '';
+    
+
+    // Pagination setup
+    $limit = 10;
+    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+    $start = ($page - 1) * $limit;
+
+    // Search query
+    $cmdselect = "SELECT * FROM client WHERE 
+        nama LIKE '%$nama%' AND 
+        alamat LIKE '%$alamat%' AND 
+        negeri LIKE '%$negeri%' AND
+        nama_syarikat LIKE '%$syarikat%'
+        LIMIT $start, $limit";
+
+    $resultselect = $conn->query($cmdselect);
+
+    // Get total records for pagination
+    $total_query = "SELECT COUNT(*) AS total FROM client WHERE 
+        nama LIKE '%$nama%' AND 
+        alamat LIKE '%$alamat%' AND 
+        negeri LIKE '%$negeri%' AND
+        nama_syarikat LIKE '%$syarikat%'";
+
+    $total_result = $conn->query($total_query);
+    $total_row = $total_result->fetch_assoc();
+    $total_pages = ceil($total_row['total'] / $limit);
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Data</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <h1><i class="fas fa-id-card"></i> Registration Business Card</h1>
+        <ul class="dropdown">
+            <li class="dropdown-item"><i class="fas fa-user"></i> <?php echo ($user_name); ?></li>
+                <ul class="dropdown-menu">
+                    <li> <a href="logout.php" class="logout"><i class="fas fa-sign-out-alt"></i> Log Out</a></li>
+                </ul>
+        </ul>
+    </header>
+
+    <aside class="aside">
+        <ul>
+            <li><a href="home.php"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="form.php"><i class="fas fa-user-plus"></i> Registration Card</a></li>
+            <li><a href="display.php"><i class="fas fa-list"></i> View Details Card</a></li>
+            <li>
+                <form action="export_excel.php" method="post">
+                    <button type="submit" name="export_excel" class="export-excel">
+                        <i class="fa fa-file-excel"></i> Export Data to Excel
+                    </button>
+                </form>
+            </li>
+        </ul>
+    </aside>
+
+    <main class="main">
+        <form action="" method="get" class="form-display">
+                <div class="col-md-4">
+                    <label for="nama" class="form-label">Name:</label>
+                    <input type="search" id="nama" name="nama" class="form-control" placeholder="Enter your name" value="<?php echo $nama; ?>">
+                </div>
+                <div class="col-md-4">
+                    <label for="alamat" class="form-label">Address:</label>
+                    <input type="search" id="alamat" name="alamat" class="form-control" placeholder="Enter your address"  value="<?php echo $alamat; ?>">
+                </div>
+                <div class="col-md-4">
+                    <label for="negeri" class="form-label">State:</label>
+                    <select name="negeri" id="negeri" class="form-control-select">
+                        <option value="">Please choose state</option>
+                        <option value="Johor" <?php if (isset($negeri) && $negeri == "Johor") echo "selected"; ?>>Johor</option>
+                        <option value="Perak" <?php if (isset($negeri) && $negeri == "Perak") echo "selected"; ?>>Perak</option>
+                        <option value="Melaka" <?php if (isset($negeri) && $negeri == "Melaka") echo "selected"; ?>>Melaka</option>
+                        <option value="Negeri Sembilan" <?php if (isset($negeri) && $negeri == "Negeri Sembilan") echo "selected"; ?>>Negeri Sembilan</option>
+                        <option value="Pulau Pinang" <?php if (isset($negeri) && $negeri == "Pulau Pinang") echo "selected"; ?>>Pulau Pinang</option>
+                        <option value="Sabah" <?php if (isset($negeri) && $negeri == "Sabah") echo "selected"; ?>>Sabah</option>
+                        <option value="Kedah" <?php if (isset($negeri) && $negeri == "Kedah") echo "selected"; ?>>Kedah</option>
+                        <option value="Selangor" <?php if (isset($negeri) && $negeri == "Selangor") echo "selected"; ?>>Selangor</option>
+                        <option value="Perlis" <?php if (isset($negeri) && $negeri == "Perlis") echo "selected"; ?>>Perlis</option>
+                        <option value="Sarawak" <?php if (isset($negeri) && $negeri == "Sarawak") echo "selected"; ?>>Sarawak</option>
+                        <option value="Pahang" <?php if (isset($negeri) && $negeri == "Pahang") echo "selected"; ?>>Pahang</option>
+                        <option value="Terengganu" <?php if (isset($negeri) && $negeri == "Terengganu") echo "selected"; ?>>Terengganu</option>
+                        <option value="Kelantan" <?php if (isset($negeri) && $negeri == "Kelantan") echo "selected"; ?>>Kelantan</option>
+                        <option value="Labuan" <?php if (isset($negeri) && $negeri == "Labuan") echo "selected"; ?>>Labuan</option>
+                        <option value="Putrajaya" <?php if (isset($negeri) && $negeri == "Putrajaya") echo "selected"; ?>>Putrajaya</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="syarikat" class="form-label">Company Name:</label>
+                    <input type="search" id="syarikat" name="syarikat" class="form-control" placeholder="Enter your Company Name" value="<?php echo $syarikat; ?>">
+                </div>
+                <div class="col-12 mt-3">
+                    <button type="submit" name="cari" class="btn-search"><i class="fas fa-search"></i> Search</button>
+                </div>
+            </form>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Name</th>
+                        <th>Company Name</th>
+                        <th>Picture</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                        $no = $start + 1;
+                        if ($resultselect->num_rows > 0) {
+                            while ($data = $resultselect->fetch_assoc()) {
+                    ?>
+                    <tr>
+                        <td><?php echo $no; ?></td>
+                        <td><?php echo ($data['nama']); ?></td>
+                        <td><?php echo ($data['nama_syarikat']); ?></td>
+                        <td>
+                            <img src="data:image/jpg;base64, <?= base64_encode($data['gambar']); ?>" alt="Gambar" width="150" backgroud-color:"1px solid #fff">
+                        </td>
+                        <td>
+                            <a href="view.php?id=<?php echo $data['id']; ?>" class="btn">View
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="edit.php?id=<?php echo $data['id']; ?>" class="btn">Edit
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="delete.php?id=<?php echo $data['id']; ?>"
+                                class="btn"
+                                onclick="return confirm('Are you sure?');">Delete
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <?php
+                                $no++;
+                            }
+                        } else {
+                            echo "<tr><td class='text-center' colspan='5'>No Record.</td></tr>";
+                        }
+                    ?>
+                </tbody>
+            </table>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <?php if ($page > 1) { ?>
+                    <a href="?page=<?php echo $page - 1; ?>&nama=<?php echo $nama; ?>&alamat=<?php echo $alamat; ?>&negeri=<?php echo $negeri; ?>&syarikat=<?php echo $syarikat; ?>">&laquo; Prev</a>
+                <?php } ?>
+
+                <?php 
+                for ($i = max(1, $page - 1); $i <= min($total_pages, $page + 10); $i++) { ?>
+                    <a href="?page=<?php echo $i; ?>&nama=<?php echo $nama; ?>&alamat=<?php echo $alamat; ?>&negeri=<?php echo $negeri; ?>&syarikat=<?php echo $syarikat; ?>" class="<?php echo ($i == $page) ? 'active' : ''; ?>">
+                        <?php echo $i; ?>
+                    </a>
+                <?php } ?>
+
+                <?php if ($page < $total_pages) { ?>
+                    <a href="?page=<?php echo $page + 1; ?>&nama=<?php echo $nama; ?>&alamat=<?php echo $alamat; ?>&negeri=<?php echo $negeri; ?>&syarikat=<?php echo $syarikat; ?>">Next &raquo;</a>
+                <?php } ?>
+            </div>
+
+
+    </main>
+
+    <footer class="footer">
+        <p>&copy; Registration Business Card.</p>
+    </footer>
+</body>
+</html>

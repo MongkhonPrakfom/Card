@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="body-login">
+	 <header class="header">
+        <h1><i class="fas fa-id-card"></i> Registration Business Card</h1>
+    </header>
+<div class="container-login">
+	<div class="screen">
+		<div class="screen__content">
+			<form class="login" method="POST" action="loginprocess.php">
+				<div class="login__field">
+					<i class="login__icon fa fa-envelope"></i>
+					<input type="email" name="email" class="login__input" placeholder="Email">
+				</div>
+				<div class="login__field">
+					<i class="login__icon fas fa-lock"></i>
+					<input type="password" name="password" class="login__input" placeholder="Password">
+				</div>
+				<button type="submit" name="login" id="login" class="button login__submit">
+					<span class="button__text">Log In Now</span>
+					<i class="button__icon fas fa-chevron-right"></i>
+				</button>				
+			</form>
+			<div class="social-login">
+				<a href="signup.php" class="btn-signup">Sign Up</a>
+			</div>
+		</div>
+		<div class="screen__background">
+			<span class="screen__background__shape screen__background__shape4"></span>
+			<span class="screen__background__shape screen__background__shape3"></span>		
+			<span class="screen__background__shape screen__background__shape2"></span>
+			<span class="screen__background__shape screen__background__shape1"></span>
+		</div>		
+	</div>
+</div>
+
+</body>
+</html>

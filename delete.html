@@ -1,0 +1,9 @@
+<?php
+    include('connectiondb.php');
+    $sid = $_GET['id'];
+
+    $sqldel = "DELETE FROM client WHERE id = '$sid'";
+    $resuldel = $conn->query($sqldel);
+
+    header('Location: display.php');
+?>

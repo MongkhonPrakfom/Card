@@ -1,0 +1,60 @@
+<?php
+    // Start session at the very top
+    session_start();
+
+    // Check if the session contains the username
+    if (isset($_SESSION['user_name'])) {
+        // Retrieve the username from the session
+        $username = $_SESSION['user_name'];
+    } else {
+        // Fallback in case the session doesn't contain the username
+        $username = 'Guest'; // Or redirect to login page if necessary
+    }
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <h1><i class="fas fa-id-card"></i> Registration Business Card</h1>
+        <ul class="dropdown">
+            <li class="dropdown-item"><i class="fas fa-user"></i> <?php echo ($username); ?></li>
+                <ul class="dropdown-menu">
+                    <li> <a href="logout.php" class="logout"><i class="fas fa-sign-out-alt"></i> Log Out</a></li>
+                </ul>
+        </ul>
+    </header>
+
+    <aside class="aside">
+        <ul>
+            <li><a href="home.php"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="form.php"><i class="fas fa-user-plus"></i> Registration Card</a></li>
+            <li><a href="display.php"><i class="fas fa-list"></i> View Details Card</a></li>
+            <li>
+                <form action="export_excel.php" method="post">
+                    <button type="submit" name="export_excel" class="export-excel">
+                        <i class="fa fa-file-excel"></i> Export Data to Excel
+                    </button>
+                </form>
+            </li>
+        </ul>
+    </aside>
+
+    <main class="main">
+        <p class="info">Welcome to the Business Card Management System. Use the link above to register a new card or view existing records</p>
+        <img src="img/18203357.jpg" alt="">
+        <img src="img/18695070.jpg" alt="">
+        <img src="img/18695074.jpg" alt="">
+    </main>
+    
+    <footer class="footer">
+        <p>&copy; Registration Business Card.</p>
+    </footer>
+</body>
+</html>
